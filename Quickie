@@ -1,0 +1,348 @@
+
+
+#include<stdio.h>
+#include<stdlib.h>
+#include <windows.h>
+struct Node
+{
+    float price;
+    int data;
+    struct Node *next;
+};
+typedef struct Node node;
+void main_area()
+{
+    int main_option,password;
+    node*first=(node*)malloc(sizeof(node));
+    first->next=NULL;
+    printf("\n\n\t\t==============================================================================\n");
+    printf("\n\n\t\t\t\t\t\tWELCOME TO QUICKIE\n\n");
+    printf("\n\t\t==============================================================================\n\n\n");
+    printf("\n\t\t\t1.ADMIN\n");
+    printf("\n\t\t\t2.CUSTOMER\n");
+    printf("\n\t\t\t3.EXIT\n\n");
+    printf("choose your option[1-3]:......");
+    scanf("%d",&main_option);
+    switch(main_option)
+    {
+    case 1:
+        password=00001;
+        admin(password);
+        break;
+    case 2:
+        customer(first);
+        break;
+    case 3:
+        exit(0);
+    default:
+        printf("you have pressed wrong .to try again press any key...\n");
+        getch();
+        main_area();
+    }
+}
+void admin(int pass)
+{
+    int password,menu2;
+    char name[10];
+    int a=0;
+    do
+    {
+        printf("\n\n\t\t\t\t LOG IN \t\t\t");
+        printf("\n\t Enter your  name: ");
+        scanf("%s",&name);
+        printf("\t Enter your password: ");
+        scanf("%d",&password);
+        if(password==pass)
+        {
+            printf("\t\t\t\tHello! %s ,Welcome to Quickie ADMIN site.LOG IN is SUCCESSFULL..........\n\n",&name) ;
+            getch();
+            printf("Enter any key to continue.....");
+            admin_manu();
+        }
+        else
+        {
+            printf("Wrong password...\n Enter again...!\n");
+            a++;
+        }
+    }
+    while(a<=3);
+    if(a>3)
+    {
+        printf("\n\t\t\t\t\n\n\nSorry you have entered the wrong Username and Password four times!!! \n\n\n\n");
+    }
+}
+
+void admin_manu()
+{
+    system("cls");
+    node*first=(node*)malloc(sizeof(node));
+    first->next=NULL;
+jump:
+    ;
+    int menu2;
+    printf("\n\n\t\t=============================================================================\n\n\n");
+    printf("\n\n\t\t\t\t\tWELCOME TO ADMIN MENU\n\n\n\n\n");
+    printf("\t\t\t\t1.Add New Food Product \n");
+    printf("\t\t\t\t2.delete Item\n");
+    printf("\t\t\t\t3.show Products\n");
+    printf("\t\t\t\t0.Main menu\n");
+    printf("Enter [1-3] to continue or [0] to main menu ........ ");
+    scanf("%d",&menu2);
+    switch(menu2)
+    {
+    case 1:
+    {
+        int num1,i=0,num2;
+        float price;
+        printf("\n\nHow many products do you want to Add:\n");
+        scanf("%d",&num1);
+        while (i!=num1)
+        {
+            printf("\n\n Enter Item Code :\n");
+            scanf("%d",&num2);
+            printf("\n\n Enter Item Price :\n");
+            scanf("%f",&price);
+            insert(first,num2,price);
+            i++;
+        }
+        goto jump;
+    }
+    break;
+    case 2:
+    {
+        int num;
+        printf("\n\n which item do you want to delete?\n\tEnter the item code: ");
+        scanf("%d",&num);
+        delet(num,first);
+        getch();
+        printf("enter any key to go admin menu ....");
+        goto jump;
+        break;
+    }
+    case 3:
+        display(first->next);
+        getch();
+        printf("enter any key to go admin menu ....");
+        goto jump;
+        break;
+    case 0:
+        main();
+        break;
+    default:
+        printf("please try again to press any key ....\n");
+        getch();
+        system("cls");
+        admin_manu();
+        break;
+    }
+}
+
+void insert(node*first,int code,float price)
+{
+    node*new_in=(node*)malloc(sizeof(node));
+    new_in->data=code;
+    new_in->price=price;
+    new_in->next=NULL;
+    while(first->next!=NULL)
+    {
+        first=first->next;
+    }
+    first->next=new_in;
+}
+
+void delet(int pos,node*first)
+{
+    if(first->next==NULL)
+    {
+        printf("there is no %d",pos);
+    }
+    while(first->next!=NULL)
+    {
+        if(first->next->data==pos)
+        {
+            first->next=first->next->next;
+            break;
+        }
+        first=first->next;
+    }
+}
+void display(node*first)
+{
+    if(first==NULL)
+    {
+        printf("\n\n\t\t\tinput is empty\n\n");
+    }
+    while(first!=NULL)
+    {
+        printf("\n\t\t\t product code:%d\n",first->data);
+        printf("\t\t\t product price:%.2f\n",first->price);
+        first=first->next;
+    }
+}
+
+void customer(node*first)
+{
+    node*head=(node*)malloc(sizeof(node));
+    head->next=NULL;
+    int choice;
+jump:
+    ;
+    system("cls");
+    printf("\n\n\t\t=============================================================================\n\n\n");
+    printf("\n\n\t\t\t\t\tWELCOME TO CUSTOMER MENU\n\n");
+    printf("\n\t\t\t1.See items and Order Food\n");
+    printf("\n\t\t\t2.payment system \n");
+    printf(" \n\t\t\t0.Main menu\n");
+    printf("\n\n\n\n\n\n\tEnter your choice[1-2] or [0] to Main menu..............");
+    scanf("%d",&choice);
+    switch(choice)
+    {
+    case 1 :
+    {
+        system("cls");
+
+        printf("\n\n\n\t\t\t\t..................................MENU....................................\n\n\n");
+
+        printf("\t\t\t\tItem Code#   Description-------------------Size--------------------Price(tk)\n");
+
+        printf("\t\t\t\t[ 1 ]---------Burger---------------------200gm---------------------130\n");
+        printf("\t\t\t\t[ 2 ]---------Chicken Pizza--------------12inch--------------------750\n");
+        printf("\t\t\t\t[ 3 ]---------Fried Chicken--------------6pcs----------------------320\n");
+        printf("\t\t\t\t[ 4 ]---------Grilled Chicken------------Full----------------------250\n");
+        printf("\t\t\t\t[ 5 ]---------Chicken Noodles------------Full----------------------120\n");
+        printf("\t\t\t\t[ 6 ]---------Pasta----------------------Full----------------------240\n");
+        printf("\t\t\t\t[ 7 ]---------Oreo Shake-----------------250mg---------------------180\n");
+        printf("\t\t\t\t[ 8 ]---------Cold Coffee----------------250mg---------------------65\n");
+        printf("\t\t\t\t[ 9 ]---------Cappuccino-----------------250mg---------------------70\n");
+        printf("\t\t\t\t[ 10 ]--------Coke-----------------------250mg---------------------30\n\n");
+        int x,y,z,i;
+        printf("\t\t\t\tHow many item do you order: ");
+        scanf(" %d",&z);
+        float tp=0,p,p1,p2,p3,p4,p5,p6,p7,p8,p9;
+        for(i=0; i<z; i++)
+        {
+
+            printf("\n\t\t\tEnter Item Code  ");
+            scanf(" %d",&x);
+            if (x==1)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p=130*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p);
+                tp+=p;
+            }
+            if (x==2)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p1=750*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p1);
+                tp+=p1;
+            }
+            if (x==3)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p2=320*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p2);
+                tp+=p2;
+            }
+            if (x==4)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p3=250*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p3);
+                tp+=p3;
+            }
+            if (x==5)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p4=120*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p4);
+                tp+=p4;
+            }
+            if (x==6)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p5=240*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p5);
+                tp+=p5;
+            }
+            if (x==7)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p6=180*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p6);
+                tp+=p6;
+            }
+            if (x==8)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p7=65*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p7);
+                tp+=p7;
+            }
+            if (x==9)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p8=70*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p8);
+                tp+=p8;
+            }
+            if (x==10)
+            {
+                printf("\n\t\t\tHow many of this item do you want: ");
+                scanf(" %d",&y);
+                p9=30*y;
+                printf("\n\t\t\tTotal Price : %.2f \n",p9);
+                tp+=p9;
+            }
+        }
+        printf("\n\t\t\tTotal overall Price = %.2f\n\t\t\tThank You for your order!Please Wait until the food arrives!",tp);
+        getch();
+        goto jump;
+        break;
+    }
+    case 2 :
+    {
+        printf("\n\t\t\tBY which do you want to pay?\n1.bkash\n2.Cash\n3.Others\n");
+        int p;
+        scanf("%d",&p);
+        if(p==1)
+        {
+            printf("Our Bkash number = 01729973325\nFirst pay the bill then send sms to this number 01729973325 your item code & amount of items\n");
+        }
+        printf("Thanks for using our Application!");
+
+        getch();
+        goto jump;
+        break;
+    }
+    case 0:
+        system("cls");
+        main();
+        break;
+    default:
+    {
+        printf("\t\t\t\tThank you try again");
+        getch();
+        goto jump;
+        break;
+    }
+    }
+}
+
+
+int main()
+{
+    main_area();
+}
+
+
